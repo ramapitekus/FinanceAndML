@@ -5,6 +5,7 @@ import re
 import os
 from typing import Tuple, List
 
+
 FACTORS = ['bitcoin-marketcap', 'bitcoin-price', 'transactions', 'bitcoin-sentinusd', 'bitcoin-transactionvalue',
            'bitcoin-mediantransactionvalue', 'bitcoin-transactionfees', 'bitcoin-median_transaction_fee',
            'bitcoin-confirmationtime', 'bitcoin-size', 'bitcoin-fee_to_reward', 'bitcoin-difficulty',
@@ -53,12 +54,12 @@ def parse_content(content: str) -> List:
     return parsed
 
 
-def write_to_csv(date, val, factor) -> None:
+def write_to_csv(date: List, val: List, factor: str) -> None:
     df = pandas.DataFrame(list(zip(date, val)), columns=["Date", "val"])
-    if not os.path.isdir('./data'):
-        os.mkdir('./data')
+    if not os.path.isdir('./scraper/data'):
+        os.mkdir('./scraper/data')
 
-    df.to_csv(f'./data/{factor}.csv')  # noqa
+    df.to_csv(f'./scraper/data/{factor}.csv')  # noqa
 
 
 main()
