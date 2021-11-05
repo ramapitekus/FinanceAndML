@@ -12,7 +12,7 @@ FACTORS = {"raw": ['bitcoin-marketcap', 'bitcoin-price', 'bitcoin-transactions',
            'bitcoin-confirmationtime', 'bitcoin-size', 'bitcoin-fee_to_reward', 'bitcoin-difficulty',
            'bitcoin-hashrate', 'bitcoin-mining_profitability', 'bitcoin-activeaddresses', 'bitcoin-tweets', 'google_trends-btc',
                    ],
-            "technical": ['price-btc', 'transactions-btc', 'size-btc', 'sentbyaddress-btc', 'difficulty-btc', 'hashrate-btc', 'mining_profitability-btc',\
+            "technical": [ 'difficulty-btc', 'hashrate-btc', 'mining_profitability-btc',\
            'sentinusd-btc', 'transactionfees-btc', 'median_transaction_fee-btc', 'confirmationtime-btc', 'marketcap-btc',\
            'transactionvalue-btc', 'mediantransactionvalue-btc', 'fee_to_reward-btc']}
 
