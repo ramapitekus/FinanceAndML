@@ -12,27 +12,29 @@ def main() -> None:
 
     for date in TIME_PERIODS:
         df = pd.read_csv(f"./data/binary_price_change_cols/indicators-{date}.csv")
+        df["Date"] = pd.to_datetime(df["Date"])
+        df = df.set_index("Date")
 
         for period in PERIODS:
 
             col_format = "{}d_binary_price_change"
             y_col_name = col_format.format(period)
-            col_to_drop = [col_format.format(p) for p in PERIODS]
-            x = df.drop(columns=col_to_drop + ["Date"])
+            shifted_values = [col_format.format(p) for p in PERIODS]
+            x = df.drop(columns=shifted_values)
             y = df[y_col_name]
 
             x_important_cols = feature_selection(x, y, period)
 
-            df_filtered = df[x_important_cols]
+            df_filtered = df[list(x_important_cols) + shifted_values]
 
-            df_filtered.to_csv(f"./data/binary_price_change_cols/filtered/{date}/{period}d_indicators.csv", index=False)
+            df_filtered.to_csv(f"./data/binary_price_change_cols/filtered/{date}/{period}d_indicators.csv")
 
     return None
 
 
 def feature_selection(x: pd.DataFrame, y: pd.DataFrame, period: int) -> pd.DataFrame:
     print(f"period {period}")
-    x = x.iloc[:, :-period]
+    x, y = x.iloc[:-period, :], y[:-period]  # Do not fit on the NAs because of shift
     classifier = SelectFromModel(RandomForestClassifier(n_estimators=300))
     classifier.fit(x, y)
 
