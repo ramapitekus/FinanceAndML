@@ -10,7 +10,9 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 PERIODS = [1, 7, 30, 90]
 DATES = ["01-04-2013-01-01-2017", "01-04-2013-19-07-2016", "01-04-2013-31-12-2020"]
 INPUT_PATH = {True: "./data/all_features/categorical", False: "./data/all_features/continuous"}
-OUTPUT_PATH = {True: "./data/features_selected/categorical/{}/{}d_indicators.csv", False: "./data/features_selected/continuous/{}/{}d_indicators.csv"}
+OUTPUT_PATH = {True: "./data/features_selected/categorical/{}/{}d_indicators.csv", 
+               False: "./data/features_selected/continuous/{}/{}d_indicators.csv"
+              }
 
 
 def feature_selection(categorical: bool, vif_threshold: float, rf_threshold: float) -> None:
@@ -59,11 +61,12 @@ def timer(orig_func):
 @timer
 def random_forest(df: pd.DataFrame, col_format: str, threshold: float, date: str, period: int, categorical: bool) -> pd.DataFrame:
     y_col_name = col_format.format(period)
-    shifted_values = [col_format.format(p) for p in PERIODS]
-    x = df.drop(columns=shifted_values)
+    dependent_cols = [col_format.format(p) for p in PERIODS]
+    # Remove dependent cols (y) from the dataset
+    x = df.drop(columns=dependent_cols)
     y = df[y_col_name]
 
-    x, y = x.iloc[:-period, :], y[:-period]  # Do not fit on the NAs because of shift
+    x, y = x.iloc[:-period, :], y[:-period]  # Do not fit on last x days, because of shift (shift causes last x values to be NAs)
     if categorical:
         model = SelectFromModel(RandomForestClassifier(n_estimators=100))
         model.fit(x, y)
@@ -72,15 +75,15 @@ def random_forest(df: pd.DataFrame, col_format: str, threshold: float, date: str
         model = SelectFromModel(RandomForestRegressor(n_estimators=100), threshold=threshold)
         model.fit(x, y)
 
-    x_important_cols = list(x.columns[model.get_support()])
+    relevant_features = list(x.columns[model.get_support()])
 
-    return df[x_important_cols + shifted_values]
+    return df[relevant_features + [y_col_name]]
 
 
 @timer
 def VIF_feature_selection(df: pd.DataFrame, col_format: str, threshold: float, date: str, period: int, categorical: bool) -> pd.DataFrame:
-    dependent_columns = [col_format.format(period) for period in PERIODS]
-    x = df.drop(columns=dependent_columns)
+    y_col_name = col_format.format(period)
+    x = df.drop(columns=y_col_name)
 
     vif_data = pd.DataFrame()
     vif_data["feature"] = x.columns
@@ -91,7 +94,7 @@ def VIF_feature_selection(df: pd.DataFrame, col_format: str, threshold: float, d
         if row["VIF"] < threshold:
             relevant_features.append(row["feature"])
 
-    return df[relevant_features + dependent_columns]
+    return df[relevant_features + [y_col_name]]
 
 
 feature_selection(categorical=False, vif_threshold=15, rf_threshold=1e-4)

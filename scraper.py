@@ -3,8 +3,6 @@ import requests
 import pandas
 import re
 from datetime import datetime
-from cleaner import OUTPUT_PATH
-from utils import write_to_csv
 from typing import List, Tuple
 
 
@@ -19,7 +17,7 @@ FACTORS = {"raw": ['bitcoin-marketcap', 'bitcoin-price', 'bitcoin-transactions',
                          'confirmationtime-btc', 'marketcap-btc', 'transactionvalue-btc',
                          'mediantransactionvalue-btc', 'fee_to_reward-btc',
                          'size-btc', 'transactions-btc', 'sentbyaddress-btc', 'top100cap-btc',
-                         'activeaddresses-btc', 'price-btc',  # tweets-btc
+                         'activeaddresses-btc', 'price-btc'
                          ],
            }
 
@@ -32,37 +30,48 @@ OUTPUT_PATH = "./data/uncleaned/"
 
 
 def collect() -> None:
-    vals = []
-    col_names = ["Date"]
-    col_names, vals, date = extract_data(FACTORS["raw"], col_names, vals, raw=True)
-    col_names, vals, date = extract_data(FACTORS["technical"], col_names, vals, raw=False)
+    col_names, vals, date = extract_data()
     df = pandas.DataFrame(list(zip(date, *vals)), columns=col_names)
+
     name = f'indicators-{START_DATE.strftime("%d-%m-%Y")}-{END_DATE.strftime("%d-%m-%Y")}'
 
     df.to_csv(f'{OUTPUT_PATH}/{name}.csv', index=False)
 
 
-def extract_data(factors: List, col_names: List, vals: List, raw: bool) -> Tuple:
-    for factor in factors:
-        if not raw:
-            for indicator in INDICATORS:
-                for period in PERIOD:
-                    url = URL.format(factor, f'-{indicator}{period}')
-                    col_name = f'{factor}-{indicator}-{period}'
-                    val, col_name, date = scrape(url, col_name)
-                    vals.append(val)
-                    col_names.append(col_name)
-        else:
-            url = URL.format(factor, '')
-            col_name = f'{factor}_raw'
-            val, col_name, date = scrape(url, col_name)
-            vals.append(val)
-            col_names.append(col_name)
+def extract_data() -> Tuple:
+    # List (val) with values for every indicator is created. Then, this list is appended to the list of lists (vals)
+    # which contains all indicators
+    # TODO Date is being re-written after every scraped indicator. Replace?
+
+    vals = []
+    col_names = ["Date"]
+
+    for type, factors in FACTORS.items():
+        for factor in factors:
+
+            if type == "technical":
+                for indicator in INDICATORS:
+                    for period in PERIOD:
+                        tech_indicator_specs = f'-{indicator}{period}'
+                        url = URL.format(factor, tech_indicator_specs)
+                        col_name = f'{factor}-{tech_indicator_specs}'
+                        val, date = scrape(url)
+
+                        vals.append(val)
+                        col_names.append(col_name)
+
+            if type == "raw":
+                url = URL.format(factor, '')
+                col_name = f'{factor}_raw'
+                val, date = scrape(url)
+
+                vals.append(val)
+                col_names.append(col_name)
 
     return col_names, vals, date
 
 
-def scrape(url: str, col_name: str) -> Tuple:
+def scrape(url: str) -> Tuple:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     scripts = soup.find_all('script')
@@ -92,7 +101,7 @@ def scrape(url: str, col_name: str) -> Tuple:
                 break
             val.append(obs)
 
-    return val, col_name, date
+    return val, date
 
 
 def parse_content(content: str) -> List:
