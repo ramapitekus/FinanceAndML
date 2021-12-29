@@ -1,0 +1,105 @@
+Training interval 1 for 1 day(s) period
+Epoch 5000 validation loss is 22865
+
+Statistics
+rmse is 12.9647855758667
+mae is 8.170083999633789
+mape is 0.02448897808790207
+R2 is 0.995894009761785
+
+Training interval 1 for 7 day(s) period
+Epoch 5000 validation loss is 11778
+
+Statistics
+rmse is 9.481045722961426
+mae is 6.159700870513916
+mape is 0.017380444332957268
+R2 is 0.9975885570804023
+
+Training interval 1 for 30 day(s) period
+Epoch 5000 validation loss is 56734
+
+Statistics
+rmse is 8.213061332702637
+mae is 5.079041004180908
+mape is 0.01600993052124977
+R2 is 0.998346637305389
+
+Training interval 1 for 90 day(s) period
+Epoch 5000 validation loss is 71190
+
+Statistics
+rmse is 12.292204856872559
+mae is 6.6133294105529785
+mape is 0.017523426562547684
+R2 is 0.9960892032930525
+
+Training interval 2 for 1 day(s) period
+Epoch 5000 validation loss is 15062
+
+Statistics
+rmse is 14.10185432434082
+mae is 7.74578857421875
+mape is 0.024347703903913498
+R2 is 0.995654488944483
+
+Training interval 2 for 7 day(s) period
+Epoch 5000 validation loss is 148050
+
+Statistics
+rmse is 8.188904762268066
+mae is 5.398604393005371
+mape is 0.013673309236764908
+R2 is 0.9983812918840181
+
+Training interval 2 for 30 day(s) period
+Epoch 5000 validation loss is 45139
+
+Statistics
+rmse is 9.778550148010254
+mae is 5.445158004760742
+mape is 0.015402439050376415
+R2 is 0.9980429781894987
+
+Training interval 2 for 90 day(s) period
+Epoch 5000 validation loss is 25911
+
+Statistics
+rmse is 13.23223876953125
+mae is 8.165806770324707
+mape is 0.020512228831648827
+R2 is 0.9956278604411233
+
+Training interval 3 for 1 day(s) period
+Epoch 5000 validation loss is 1819183
+
+Statistics
+rmse is 207.70623779296875
+mae is 110.17219543457031
+mape is 0.03783436864614487
+R2 is 0.9980587971024145
+
+Training interval 3 for 7 day(s) period
+Epoch 5000 validation loss is 6144108
+
+Statistics
+rmse is 171.28515625
+mae is 91.20063018798828
+mape is 0.0410885363817215
+R2 is 0.9985658622838365
+
+Training interval 3 for 30 day(s) period
+Epoch 5000 validation loss is 82598038
+
+Statistics
+rmse is 173.0320587158203
+mae is 80.84758758544922
+
+Training interval 3 for 90 day(s) period
+Epoch 5000 validation loss is 4901118
+
+Statistics
+rmse is 138.02374267578125
+mae is 76.69877624511719
+mape is 0.025524994358420372
+R2 is 0.9990419945483732
