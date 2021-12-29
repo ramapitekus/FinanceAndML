@@ -1,0 +1,80 @@
+Training interval 1 for 1 day(s) period
+Statistics
+rmse is 24.883125560979504
+mae is 10.651406563986926
+mape is 0.02567874694012039
+R2 is 0.9841057652657137
+
+Training interval 1 for 7 day(s) period
+Statistics
+rmse is 16.37038268803567
+mae is 9.074481314295182
+mape is 0.02598787428958688
+R2 is 0.9926231033963754
+
+Training interval 1 for 30 day(s) period
+Statistics
+rmse is 26.411460294778117
+mae is 12.338187688153308
+mape is 0.028047940985906017
+R2 is 0.9826726119262315
+
+Training interval 1 for 90 day(s) period
+Statistics
+rmse is 19.11219853247867
+mae is 9.99377514701437
+mape is 0.02375719213221727
+R2 is 0.9905938002721382
+
+Training interval 2 for 1 day(s) period
+Statistics
+rmse is 19.835491892105008
+mae is 10.271266518991265
+mape is 0.024908532231168103
+R2 is 0.9910759940232242
+
+Training interval 2 for 7 day(s) period
+Statistics
+rmse is 22.69367343585788
+mae is 10.949511819564911
+mape is 0.026437858701283075
+R2 is 0.9880469321583031
+
+Training interval 2 for 30 day(s) period
+Statistics
+rmse is 16.091753252988624
+mae is 8.700115978138257
+mape is 0.023092041073062525
+R2 is 0.994236058137825
+
+Training interval 2 for 90 day(s) period
+Statistics
+rmse is 13.931889979846142
+mae is 8.89845632635567
+mape is 0.02128215488336545
+R2 is 0.9955185481877029
+
+Training interval 3 for 1 day(s) period
+Statistics
+rmse is 534.9632948415697
+mae is 240.35563483292637
+mape is 0.05970033718695674
+R2 is 0.9867765610380574
+
+Statistics
+rmse is 312.47698025141295
+mae is 135.72733938204757
+mape is 0.04872902518874809
+R2 is 0.9952420292530745
+
+Training interval 3 for 30 day(s) period
+Statistics
+rmse is 356.5178097376976
+mae is 136.44341815522606
+mape is 0.04598845389881421
+R2 is 0.9935578741330968
+
+Training interval 3 for 90 day(s) period
+Statistics
+rmse is 364.18225283299734
+R2 is 0.9937750064121149
