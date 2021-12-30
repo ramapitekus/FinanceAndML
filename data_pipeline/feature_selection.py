@@ -8,16 +8,20 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 # TODO perhaps add multiprocessing
 
 PERIODS = [1, 7, 30, 90]
-DATES = ["01-04-2013-01-01-2017", "01-04-2013-19-07-2016", "01-04-2013-31-12-2020"]
-INPUT_PATH = {True: "./data/all_features/categorical", False: "./data/all_features/continuous"}
-OUTPUT_PATH = {True: "./data/features_selected/categorical/{}/{}d_indicators.csv", 
+DATES = ["01-04-2013-01-01-2017",
+ "01-04-2013-19-07-2016", "01-04-2013-31-12-2020"]
+INPUT_PATH = {True: "./data/all_features/categorical",
+              False: "./data/all_features/continuous"}
+
+OUTPUT_PATH = {True: "./data/features_selected/categorical/{}/{}d_indicators.csv",
                False: "./data/features_selected/continuous/{}/{}d_indicators.csv"
-              }
+               }
 
 
-def feature_selection(categorical: bool, vif_threshold: float, rf_threshold: float) -> None:
+def feature_selection(settings: dict, categorical: bool, vif_threshold: float, rf_threshold: float) -> None:
 
-    for date in DATES:
+    for date in settings["dates"]:
+        date = "-".join(date)  # Join start and end date with "-"
         for period in PERIODS:
 
             df = pd.read_csv(f"{INPUT_PATH[categorical]}/indicators-{date}.csv")
@@ -95,7 +99,3 @@ def VIF_feature_selection(df: pd.DataFrame, col_format: str, threshold: float, d
             relevant_features.append(row["feature"])
 
     return df[relevant_features + [y_col_name]]
-
-
-feature_selection(categorical=False, vif_threshold=15, rf_threshold=1e-4)
-feature_selection(categorical=True, vif_threshold=15, rf_threshold=1e-4)

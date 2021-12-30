@@ -6,56 +6,57 @@ from datetime import datetime
 from typing import List, Tuple
 
 
-FACTORS = {"raw": ['bitcoin-marketcap', 'bitcoin-price', 'bitcoin-transactions', 'bitcoin-sentinusd', 'bitcoin-transactionvalue',
-                   'bitcoin-mediantransactionvalue', 'bitcoin-transactionfees', 'bitcoin-median_transaction_fee',
-                   'bitcoin-confirmationtime', 'bitcoin-size', 'bitcoin-fee_to_reward', 'bitcoin-difficulty',
-                   'bitcoin-hashrate', 'bitcoin-mining_profitability', 'bitcoin-activeaddresses', 'google_trends-btc',
-                   'top100cap-btc',
-                   ],
-           "technical": ['difficulty-btc', 'hashrate-btc', 'mining_profitability-btc',
-                         'sentinusd-btc', 'transactionfees-btc', 'median_transaction_fee-btc',
-                         'confirmationtime-btc', 'marketcap-btc', 'transactionvalue-btc',
-                         'mediantransactionvalue-btc', 'fee_to_reward-btc',
-                         'size-btc', 'transactions-btc', 'sentbyaddress-btc', 'top100cap-btc',
-                         'activeaddresses-btc', 'price-btc'
-                         ],
-           }
-
-PERIOD = ['3', '7', '14', '30', '90']
-INDICATORS = ['sma', 'ema', 'wma', 'std', 'mom', 'var', 'trx', 'rsi', 'roc']
 URL = "https://bitinfocharts.com/comparison/{}{}.html#alltime"
-START_DATE = datetime(2013, 4, 1)
-END_DATE = datetime(2017, 1, 1)
 OUTPUT_PATH = "./data/uncleaned/"
 
 
-def collect() -> None:
-    col_names, vals, date = extract_data()
-    df = pandas.DataFrame(list(zip(date, *vals)), columns=col_names)
+def scrape(settings: dict) -> None:
 
-    name = f'indicators-{START_DATE.strftime("%d-%m-%Y")}-{END_DATE.strftime("%d-%m-%Y")}'
+    for start_date_str, end_date_str in settings["dates"]:
+        print(f">> Collecting data for period {start_date_str} to {end_date_str}")
+        start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
+        end_date = datetime.strptime(end_date_str, "%d-%m-%Y")
 
-    df.to_csv(f'{OUTPUT_PATH}/{name}.csv', index=False)
+        col_names, vals, date = extract_data(settings["factors"],
+                                             settings["indicators"],
+                                             settings["periods"],
+                                             start_date,
+                                             end_date,
+                                             )
+
+        df = pandas.DataFrame(list(zip(date, *vals)), columns=col_names)
+        name = f'indicators-{start_date_str}-{end_date_str}'
+        df.to_csv(f'{OUTPUT_PATH}/{name}.csv', index=False)
+
+    print(">>> Done scraping")
+
+    return None
 
 
-def extract_data() -> Tuple:
+def extract_data(factors: dict,
+                 indicators: List,
+                 periods: List,
+                 start_date: datetime,
+                 end_date: datetime
+                 ) -> Tuple:
     # List (val) with values for every indicator is created. Then, this list is appended to the list of lists (vals)
     # which contains all indicators
     # TODO Date is being re-written after every scraped indicator. Replace?
+    # TODO Would be faster to scrape the longest period and split the datasets according to sub-periods
 
     vals = []
     col_names = ["Date"]
 
-    for type, factors in FACTORS.items():
+    for type, factors in factors.items():
         for factor in factors:
 
             if type == "technical":
-                for indicator in INDICATORS:
-                    for period in PERIOD:
+                for indicator in indicators:
+                    for period in periods:
                         tech_indicator_specs = f'-{indicator}{period}'
                         url = URL.format(factor, tech_indicator_specs)
                         col_name = f'{factor}-{tech_indicator_specs}'
-                        val, date = scrape(url)
+                        val, date = collect(url, start_date, end_date)
 
                         vals.append(val)
                         col_names.append(col_name)
@@ -63,7 +64,7 @@ def extract_data() -> Tuple:
             if type == "raw":
                 url = URL.format(factor, '')
                 col_name = f'{factor}_raw'
-                val, date = scrape(url)
+                val, date = collect(url, start_date, end_date)
 
                 vals.append(val)
                 col_names.append(col_name)
@@ -71,7 +72,7 @@ def extract_data() -> Tuple:
     return col_names, vals, date
 
 
-def scrape(url: str) -> Tuple:
+def collect(url: str, start_date: datetime, end_date: datetime) -> Tuple:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     scripts = soup.find_all('script')
@@ -89,15 +90,15 @@ def scrape(url: str) -> Tuple:
     for obs in data:
         if (data.index(obs) % 2) == 0:
             day = datetime.strptime(obs, "%Y/%m/%d")
-            if day < START_DATE:
+            if day < start_date:
                 continue
-            elif day > END_DATE:
+            elif day > end_date:
                 break
             date.append(obs)
         else:
-            if day < START_DATE:
+            if day < start_date:
                 continue
-            elif day > END_DATE:
+            elif day > end_date:
                 break
             val.append(obs)
 
@@ -109,6 +110,3 @@ def parse_content(content: str) -> List:
     split = re.split("[\'\"]", clean)
     parsed = [s for s in split if s != '']
     return parsed
-
-
-collect()

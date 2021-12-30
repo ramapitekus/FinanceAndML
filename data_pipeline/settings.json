@@ -1,0 +1,19 @@
+{"factors": 
+    {"raw": ["bitcoin-marketcap", "bitcoin-price", "bitcoin-transactions", "bitcoin-sentinusd", "bitcoin-transactionvalue",
+    "bitcoin-mediantransactionvalue", "bitcoin-transactionfees", "bitcoin-median_transaction_fee",
+    "bitcoin-confirmationtime", "bitcoin-size", "bitcoin-fee_to_reward", "bitcoin-difficulty",
+    "bitcoin-hashrate", "bitcoin-mining_profitability", "bitcoin-activeaddresses", "google_trends-btc",
+    "top100cap-btc"
+    ],
+    "technical": ["difficulty-btc", "hashrate-btc", "mining_profitability-btc",
+          "sentinusd-btc", "transactionfees-btc", "median_transaction_fee-btc",
+          "confirmationtime-btc", "marketcap-btc", "transactionvalue-btc",
+          "mediantransactionvalue-btc", "fee_to_reward-btc",
+          "size-btc", "transactions-btc", "sentbyaddress-btc", "top100cap-btc",
+          "activeaddresses-btc", "price-btc"
+          ]
+        },
+"periods": [1, 7, 30, 90],
+"indicators": ["sma", "ema", "wma", "std", "mom", "var", "trx", "rsi", "roc"],
+"dates": [["01-04-2013", "01-01-2017"], ["01-04-2013", "19-07-2016"], ["01-04-2013", "31-12-2020"]]
+}
