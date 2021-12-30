@@ -7,9 +7,6 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 # TODO perhaps add multiprocessing
 
-PERIODS = [1, 7, 30, 90]
-DATES = ["01-04-2013-01-01-2017",
- "01-04-2013-19-07-2016", "01-04-2013-31-12-2020"]
 INPUT_PATH = {True: "./data/all_features/categorical",
               False: "./data/all_features/continuous"}
 
@@ -22,7 +19,7 @@ def feature_selection(settings: dict, categorical: bool, vif_threshold: float, r
 
     for date in settings["dates"]:
         date = "-".join(date)  # Join start and end date with "-"
-        for period in PERIODS:
+        for period in settings["periods"]:
 
             df = pd.read_csv(f"{INPUT_PATH[categorical]}/indicators-{date}.csv")
             df["Date"] = pd.to_datetime(df["Date"])
@@ -33,6 +30,7 @@ def feature_selection(settings: dict, categorical: bool, vif_threshold: float, r
             df_filtered = random_forest(df,
                                         col_format,
                                         rf_threshold,
+                                        settings,
                                         date=date,
                                         period=period,
                                         categorical=categorical)
@@ -63,9 +61,17 @@ def timer(orig_func):
 
 
 @timer
-def random_forest(df: pd.DataFrame, col_format: str, threshold: float, date: str, period: int, categorical: bool) -> pd.DataFrame:
+def random_forest(df: pd.DataFrame,
+                  col_format: str,
+                  threshold: float,
+                  settings: dict,
+                  date: str,
+                  period: int,
+                  categorical: bool,
+                  ) -> pd.DataFrame:
+
     y_col_name = col_format.format(period)
-    dependent_cols = [col_format.format(p) for p in PERIODS]
+    dependent_cols = [col_format.format(p) for p in settings["periods"]]
     # Remove dependent cols (y) from the dataset
     x = df.drop(columns=dependent_cols)
     y = df[y_col_name]
@@ -85,7 +91,14 @@ def random_forest(df: pd.DataFrame, col_format: str, threshold: float, date: str
 
 
 @timer
-def VIF_feature_selection(df: pd.DataFrame, col_format: str, threshold: float, date: str, period: int, categorical: bool) -> pd.DataFrame:
+def VIF_feature_selection(df: pd.DataFrame,
+                          col_format: str,
+                          threshold: float,
+                          date: str,
+                          period: int,
+                          categorical: bool
+                          ) -> pd.DataFrame:
+
     y_col_name = col_format.format(period)
     x = df.drop(columns=y_col_name)
 
