@@ -2,27 +2,57 @@ import json
 from scraper import scrape
 from cleaner import clean
 from feature_selection import feature_selection
+from time_shifting import create_target_columns
 
-SETTINGS = open("./data_pipeline/settings.json")
-SETTINGS_DICT = json.load(SETTINGS)
+
+SETTINGS = json.load(open("./data_pipeline/settings.json"))
+
+OUTPUT_PATH = {
+    "categorical": "./data/categorical/{}/{}d_indicators.csv",
+    "continuous": "./data/continuous/{}/{}d_indicators.csv",
+}
 
 
 def main() -> None:
 
-    scrape(SETTINGS_DICT)
-    clean()
+    for start_date_str, end_date_str in SETTINGS["dates"]:
+        date_str = start_date_str + "-" + end_date_str
 
-    # Perform feature selection for categorical dependent variable
-    feature_selection(SETTINGS_DICT,
-                      categorical=True,
-                      vif_threshold=15,
-                      rf_threshold=1e-4)
+        scraped_df = scrape(SETTINGS, start_date_str, end_date_str)
+        cleaned_df = clean(scraped_df)
 
-    # Perform feature selection for continuous dependent variable
-    feature_selection(SETTINGS_DICT,
-                      categorical=True,
-                      vif_threshold=15,
-                      rf_threshold=1e-4)
+        df_continuous, df_categorical = create_target_columns(cleaned_df, SETTINGS["pred_periods"])
+
+        for pred_period in SETTINGS["pred_periods"]:
+
+            # Perform feature selection for continuous dependent variable
+            features_selected_cont_df = feature_selection(
+                df_continuous,
+                SETTINGS,
+                pred_period,
+                date_str,
+                categorical=False,
+                vif_threshold=15,
+                rf_threshold=1e-4,
+            )
+
+            # Perform feature selection for categorical dependent variable
+            features_selected_cat_df = feature_selection(
+                df_categorical,
+                SETTINGS,
+                pred_period,
+                date_str,
+                categorical=True,
+                vif_threshold=15,
+                rf_threshold=1e-4,
+            )
+
+            features_selected_cont_df.to_csv(
+                OUTPUT_PATH["continuous"].format(date_str, pred_period), index=True
+            )
+            features_selected_cat_df.to_csv(
+                OUTPUT_PATH["categorical"].format(date_str, pred_period), index=True
+            )
 
 
 if __name__ == "__main__":

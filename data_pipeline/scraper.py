@@ -1,44 +1,48 @@
 from bs4 import BeautifulSoup
+from numpy import float64
 import requests
-import pandas
+import pandas as pd
 import re
 from datetime import datetime
 from typing import List, Tuple
+import numpy as np
 
 
 URL = "https://bitinfocharts.com/comparison/{}{}.html#alltime"
-OUTPUT_PATH = "./data/uncleaned/"
 
 
-def scrape(settings: dict) -> None:
+def scrape(settings: dict, start_date_str: str, end_date_str: str) -> pd.DataFrame:
 
-    for start_date_str, end_date_str in settings["dates"]:
-        print(f">> Collecting data for period {start_date_str} to {end_date_str}")
-        start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
-        end_date = datetime.strptime(end_date_str, "%d-%m-%Y")
+    print(f">> Collecting data for period {start_date_str} to {end_date_str}")
 
-        col_names, vals, date = extract_data(settings["factors"],
-                                             settings["indicators"],
-                                             settings["periods"],
-                                             start_date,
-                                             end_date,
-                                             )
+    start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
+    end_date = datetime.strptime(end_date_str, "%d-%m-%Y")
 
-        df = pandas.DataFrame(list(zip(date, *vals)), columns=col_names)
-        name = f'indicators-{start_date_str}-{end_date_str}'
-        df.to_csv(f'{OUTPUT_PATH}/{name}.csv', index=False)
+    col_names, vals, date = extract_data(
+        settings["factors"],
+        settings["indicators"],
+        settings["periods"],
+        start_date,
+        end_date,
+    )
+
+    df = pd.DataFrame(list(zip(date, *vals)), columns=col_names)
+    df = df.set_index("Date")
+    df = df.replace("null", np.nan).astype(np.float64)
 
     print(">>> Done scraping")
 
-    return None
+    return df
 
 
-def extract_data(factors: dict,
-                 indicators: List,
-                 periods: List,
-                 start_date: datetime,
-                 end_date: datetime
-                 ) -> Tuple:
+def extract_data(
+    factors: dict,
+    indicators: List,
+    periods: List,
+    start_date: datetime,
+    end_date: datetime,
+) -> Tuple:
+
     # List (val) with values for every indicator is created. Then, this list is appended to the list of lists (vals)
     # which contains all indicators
     # TODO Date is being re-written after every scraped indicator. Replace?
@@ -53,17 +57,17 @@ def extract_data(factors: dict,
             if type == "technical":
                 for indicator in indicators:
                     for period in periods:
-                        tech_indicator_specs = f'-{indicator}{period}'
+                        tech_indicator_specs = f"-{indicator}{period}"
                         url = URL.format(factor, tech_indicator_specs)
-                        col_name = f'{factor}-{tech_indicator_specs}'
+                        col_name = f"{factor}-{tech_indicator_specs}"
                         val, date = collect(url, start_date, end_date)
 
                         vals.append(val)
                         col_names.append(col_name)
 
             if type == "raw":
-                url = URL.format(factor, '')
-                col_name = f'{factor}_raw'
+                url = URL.format(factor, "")
+                col_name = f"{factor}_raw"
                 val, date = collect(url, start_date, end_date)
 
                 vals.append(val)
@@ -74,14 +78,14 @@ def extract_data(factors: dict,
 
 def collect(url: str, start_date: datetime, end_date: datetime) -> Tuple:
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    scripts = soup.find_all('script')
+    soup = BeautifulSoup(response.text, "html.parser")
+    scripts = soup.find_all("script")
     for script in scripts:
         if 'd = new Dygraph(document.getElementById("container")' in script.text:
             content = script.text
-            content = '[[' + content.split('[[')[-1]
-            content = content.split(']]')[0] + ']]'
-            content = content.replace("new Date(", '').replace(')', '')
+            content = "[[" + content.split("[[")[-1]
+            content = content.split("]]")[0] + "]]"
+            content = content.replace("new Date(", "").replace(")", "")
             data = parse_content(content)
 
     date = []
@@ -107,6 +111,6 @@ def collect(url: str, start_date: datetime, end_date: datetime) -> Tuple:
 
 def parse_content(content: str) -> List:
     clean = re.sub("[\[\],\s]", "", content)  # noqa
-    split = re.split("[\'\"]", clean)
-    parsed = [s for s in split if s != '']
+    split = re.split("['\"]", clean)
+    parsed = [s for s in split if s != ""]
     return parsed
