@@ -2,6 +2,7 @@ import torch
 import torch.nn.functional as F
 from utils import *
 
+
 class ANN(torch.nn.Module):
 
     def __init__(self, n_features, interval):
@@ -52,7 +53,7 @@ def train(net: ANN, train_loader, X_val, y_val, model_path):
     mse_loss = torch.nn.MSELoss()
     min_val_loss = 1e20
 
-    for t in range(5000):
+    for t in range(10):
         total_loss = 0
 
         for sample in train_loader:

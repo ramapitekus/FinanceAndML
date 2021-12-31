@@ -1,22 +1,20 @@
 import torch
-import torch.nn as nn
-import pandas as pd
 import math
 from sklearn.model_selection import train_test_split
 import torch.nn.functional as F
-from utils import prepare_data, prepare_dataloader
+from utils import prepare_data_NN, prepare_dataloader
 from neural_net import ANN, train, evaluate
 
 
 INTERVALS = {1: "01-04-2013-19-07-2016", 2: "01-04-2013-01-01-2017", 3: "01-04-2013-31-12-2020"}
 PERIODS = [1, 7, 30, 90]
 
-# Adapted from https://datascience.stackexchange.com/questions/96271/logcoshloss-on-pytorch
 
 def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     def _log_cosh(x: torch.Tensor) -> torch.Tensor:
         return x + torch.nn.functional.softplus(-2. * x) - math.log(2.0)
     return torch.mean(_log_cosh(y_pred - y_true))
+
 
 class LogCoshLoss(torch.nn.Module):
     def __init__(self):
@@ -30,8 +28,8 @@ class LogCoshLoss(torch.nn.Module):
 
 def train_interval(interval: int) -> None:
     for period in PERIODS:
-        interval_str = INTERVALS[period]
-        x, y = prepare_data(interval_str, period)
+        interval_str = INTERVALS[interval]
+        x, y = prepare_data_NN(interval_str, period)
 
         X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
         X_train, X_val, y_train, y_val = train_test_split(x, y, test_size=0.2)
