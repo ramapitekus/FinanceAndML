@@ -7,9 +7,12 @@ from utils import perform_statistics
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold, GroupKFold
 from utils import *
-from neural_net import *
+from neural_net import ANN
 
-INTERVALS = {1: "01-04-2013-19-07-2016", 2: "01-04-2013-01-01-2017", 3: "01-04-2013-31-12-2020"}
+INTERVALS = {1: "01-04-2013-19-07-2016",
+             2: "01-04-2013-01-01-2017",
+             3: "01-04-2013-31-12-2020"}
+
 PERIODS = [1, 7, 30, 90]
 N_NETS = 5
 
@@ -18,7 +21,7 @@ def train_interval(interval: int) -> None:
     for period in PERIODS:
 
         interval_str = INTERVALS[period]
-        x, y = prepare_data(interval_str, period)
+        x, y = prepare_data_NN(interval_str, period)
         n_features = x.shape[1]
         kf = GroupKFold(n_splits=N_NETS)
 

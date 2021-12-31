@@ -1,7 +1,6 @@
 import torch
 import math
 from sklearn.model_selection import train_test_split
-import torch.nn.functional as F
 from utils import prepare_data_NN, prepare_dataloader
 from neural_net import ANN, train, evaluate
 
@@ -10,6 +9,7 @@ INTERVALS = {1: "01-04-2013-19-07-2016", 2: "01-04-2013-01-01-2017", 3: "01-04-2
 PERIODS = [1, 7, 30, 90]
 
 
+# At this moment this loss is not used
 def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     def _log_cosh(x: torch.Tensor) -> torch.Tensor:
         return x + torch.nn.functional.softplus(-2. * x) - math.log(2.0)
