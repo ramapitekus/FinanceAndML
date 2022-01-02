@@ -1,13 +1,10 @@
 import torch
 import torch.nn as nn
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler, RobustScaler
-import torch.nn.functional as F
-from utils import perform_statistics
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold, GroupKFold
 from utils import *
-from neural_net import ANN
+from nn_solver import *
+from nn_model import ANN
 
 INTERVALS = {1: "01-04-2013-19-07-2016",
              2: "01-04-2013-01-01-2017",
@@ -16,7 +13,7 @@ INTERVALS = {1: "01-04-2013-19-07-2016",
 PERIODS = [1, 7, 30, 90]
 N_NETS = 5
 
-
+# TODO implement
 def train_interval(interval: int) -> None:
     for period in PERIODS:
 
