@@ -32,8 +32,8 @@ def main() -> None:
                 pred_period,
                 date_str,
                 categorical=False,
-                vif_threshold=15,
-                rf_threshold=1e-4,
+                vif_threshold=SETTINGS["vif_threshold"],
+                rf_threshold=SETTINGS["rf_threshold"],
             )
 
             # Perform feature selection for categorical dependent variable
@@ -43,8 +43,8 @@ def main() -> None:
                 pred_period,
                 date_str,
                 categorical=True,
-                vif_threshold=15,
-                rf_threshold=1e-4,
+                vif_threshold=SETTINGS["vif_threshold"],
+                rf_threshold=SETTINGS["rf_threshold"],
             )
 
             features_selected_cont_df.to_csv(

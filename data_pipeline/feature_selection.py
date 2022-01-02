@@ -67,15 +67,14 @@ def random_forest(
     categorical: bool,
 ) -> pd.DataFrame:
 
-    # Set y col name for given period
+    # Do not fit on last x days, because of shift (shift causes last x values to be NAs)
+    df = df.iloc[:-period, :]
+    # Set dependent y col name for given period
     y_col_name = col_name.format(period)
     # Remove all remaining dependent cols (y) of different periods from the x dataset
     dependent_cols = [col_name.format(p) for p in settings["pred_periods"]]
     x = df.drop(columns=dependent_cols)
     y = df[y_col_name]
-
-    # Do not fit on last x days, because of shift (shift causes last x values to be NAs)
-    x, y = (x.iloc[:-period, :], y[:-period])
 
     if categorical:
         model = SelectFromModel(RandomForestClassifier(n_estimators=100))
