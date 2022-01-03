@@ -17,6 +17,8 @@
 "pred_periods": [1, 7, 30, 90],
 "indicators": ["sma", "ema", "wma", "std", "mom", "var", "trx", "rsi", "roc"],
 "dates": [["01-04-2013", "01-01-2017"], ["01-04-2013", "19-07-2016"], ["01-04-2013", "31-12-2020"]],
-"rf_threshold": 1e-4,
-"vif_threshold": 10
+"rf_threshold_continuous": 1e-4,
+"vif_threshold_continuous": 10,
+"rf_threshold_categorical": 1e-4,
+"vif_threshold_categorical": 10
 }
