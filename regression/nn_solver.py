@@ -1,7 +1,8 @@
 import torch
 from utils import *
 import math
-from nn_model import ANN
+from lstm_model import LSTM
+from ann_model import ANN
 
 
 class LogCoshLoss(torch.nn.Module):
@@ -20,7 +21,7 @@ def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     return torch.mean(_log_cosh(y_pred - y_true))
 
 
-def train(net: ANN, train_loader, val_loader, model_path, loss_type: str):
+def train_model(net, train_loader, val_loader, model_path, loss_type: str, epochs):
     optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
 
     if loss_type == "logcosh":
@@ -32,7 +33,7 @@ def train(net: ANN, train_loader, val_loader, model_path, loss_type: str):
 
     min_val_loss = 1e20
 
-    for t in range(5000):
+    for t in range(epochs):
         total_loss = 0.0
 
         for data, target in train_loader:
@@ -59,13 +60,20 @@ def train(net: ANN, train_loader, val_loader, model_path, loss_type: str):
     print("\n")
 
 
-def evaluate(n_features, test_dataset, interval, model_path):
-    model = ANN(n_features, interval)
+def evaluate(n_features, test_loader, interval, model_path, nn_type: str):
+    if nn_type == "LSTM":
+        model = LSTM(n_features, 320)
+    elif nn_type == "ANN":
+        model = ANN(n_features, interval)
+    elif nn_type == "dropout":
+        model = ANN(n_features, interval, dropout=0.2)
+
     model.load_state_dict(torch.load(model_path))
     model.eval()
 
-    y_pred = torch.flatten(model(test_dataset.x))
-    y_pred = y_pred.detach().numpy()
-    y_test = test_dataset.y.detach().numpy()
+    for data, target in test_loader:
+        y_pred = torch.flatten(model(data))
+        y_pred = y_pred.detach().numpy()
+        y_test = target.detach().numpy()
 
-    perform_statistics(y_pred, y_test)
+        perform_statistics(y_pred, y_test)

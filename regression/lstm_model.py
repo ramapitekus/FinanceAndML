@@ -2,17 +2,17 @@ import torch
 
 
 class LSTM(torch.nn.Module):
-    def __init__(self, num_sensors, hidden_units):
+    def __init__(self, n_features, hidden_units):
         super().__init__()
-        self.num_sensors = num_sensors
+        self.n_features = n_features
         self.hidden_units = hidden_units
-        self.num_layers = 1
+        self.num_layers = 2
 
         self.lstm = torch.nn.LSTM(
-            input_size=num_sensors,
-            hidden_size=hidden_units,
+            input_size=n_features,
+            hidden_size=self.hidden_units,
             batch_first=True,
-            num_layers=self.num_layers
+            num_layers=self.num_layers,
         )
 
         self.linear = torch.nn.Linear(in_features=self.hidden_units, out_features=1)
