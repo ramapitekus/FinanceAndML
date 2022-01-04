@@ -34,5 +34,11 @@ class ANN(torch.nn.Module):
             x = self.generic_layer(x)
             x = F.relu(x)
             x = self.dropout(x) if self.dropout else x
+            x = self.generic_layer(x)
+            x = F.relu(x)
+            x = self.dropout(x) if self.dropout else x
+            x = self.generic_layer(x)
+            x = F.relu(x)
+            x = self.dropout(x) if self.dropout else x
         x = self.layer3(x)
         return x

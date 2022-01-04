@@ -3,7 +3,7 @@ from torch.utils.data import Dataset
 
 
 class SequenceDataset(Dataset):
-    def __init__(self, x, y, sequence_length=5):
+    def __init__(self, x, y, sequence_length=3):
         self.sequence_length = sequence_length
         self.y = y
         self.x = x

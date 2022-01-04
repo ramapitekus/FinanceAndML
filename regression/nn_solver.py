@@ -21,8 +21,8 @@ def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     return torch.mean(_log_cosh(y_pred - y_true))
 
 
-def train_model(net, train_loader, val_loader, model_path, loss_type: str, epochs):
-    optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
+def train_model(net, train_loader, val_loader, model_path, loss_type: str, epochs, lr: float) -> None:
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr)
 
     if loss_type == "logcosh":
         loss = LogCoshLoss()
@@ -60,9 +60,9 @@ def train_model(net, train_loader, val_loader, model_path, loss_type: str, epoch
     print("\n")
 
 
-def evaluate(n_features, test_loader, interval, model_path, nn_type: str):
+def evaluate(n_features, test_loader, interval, model_path, nn_type: str, hidden_units=None):
     if nn_type == "LSTM":
-        model = LSTM(n_features, 320)
+        model = LSTM(n_features, hidden_units)
     elif nn_type == "ANN":
         model = ANN(n_features, interval)
     elif nn_type == "dropout":
