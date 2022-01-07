@@ -1,7 +1,12 @@
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    mean_absolute_percentage_error,
+)
 import numpy as np
 import pandas as pd
 import torch
+from typing import List
 from typing import Tuple
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
 from sklearn.model_selection import train_test_split
@@ -23,13 +28,19 @@ def perform_statistics(y_pred: np.ndarray, y_test: np.ndarray) -> None:
 
 def prepare_dataset(interval_str: str, period: int, nn_type: str, shuffle) -> Tuple:
     target = f"bitcoin-price_raw_{period}d"
-    df = pd.read_csv(f"./data/continuous/{interval_str}/{period}d_indicators.csv", index_col=False)
+    df = pd.read_csv(
+        f"./data/continuous/{interval_str}/{period}d_indicators.csv", index_col=False
+    )
     df = df.set_index("Date")
 
     x, y = transform(df, target)
 
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, shuffle=shuffle)
-    X_train, X_val, y_train, y_val = train_test_split(x, y, test_size=0.2, shuffle=shuffle)
+    X_train, X_test, y_train, y_test = train_test_split(
+        x, y, test_size=0.2, shuffle=shuffle
+    )
+    X_train, X_val, y_train, y_val = train_test_split(
+        x, y, test_size=0.2, shuffle=shuffle
+    )
 
     if nn_type == "ANN" or nn_type == "dropout":
         train_dataset = StandardDataset(X_train, y_train)
@@ -44,7 +55,7 @@ def prepare_dataset(interval_str: str, period: int, nn_type: str, shuffle) -> Tu
     return train_dataset, test_dataset, val_dataset
 
 
-def transform(df: pd.DataFrame, target) -> pd.DataFrame:
+def transform(df: pd.DataFrame, target: List) -> Tuple:
     minmax = MinMaxScaler()
     robust = RobustScaler()
     x = df.drop(columns=[target])

@@ -1,6 +1,8 @@
 import torch
 from utils import *
 import math
+from typing import Union
+from torch.utils.data import DataLoader
 from lstm_model import LSTM
 from ann_model import ANN
 
@@ -9,19 +11,26 @@ class LogCoshLoss(torch.nn.Module):
     def __init__(self):
         super().__init__()
 
-    def forward(
-        self, y_pred: torch.Tensor, y_true: torch.Tensor
-    ) -> torch.Tensor:
+    def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
         return log_cosh_loss(y_pred, y_true)
 
 
 def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     def _log_cosh(x: torch.Tensor) -> torch.Tensor:
-        return x + torch.nn.functional.softplus(-2. * x) - math.log(2.0)
+        return x + torch.nn.functional.softplus(-2.0 * x) - math.log(2.0)
+
     return torch.mean(_log_cosh(y_pred - y_true))
 
 
-def train_model(net, train_loader, val_loader, model_path, loss_type: str, epochs, lr: float) -> None:
+def train_model(
+    net: Union[ANN, LSTM],
+    train_loader: DataLoader,
+    val_loader: DataLoader,
+    model_path: str,
+    loss_type: str,
+    epochs: int,
+    lr: float,
+) -> None:
     optimizer = torch.optim.Adam(net.parameters(), lr=lr)
 
     if loss_type == "logcosh":
@@ -55,12 +64,23 @@ def train_model(net, train_loader, val_loader, model_path, loss_type: str, epoch
                 min_val_loss = val_loss
                 torch.save(net.state_dict(), model_path)
 
-        print(f"\rEpoch {t + 1} validation loss is {int(val_loss)}, training loss {int(total_loss)}", flush=True, end="")
+        print(
+            f"\rEpoch {t + 1} validation loss is {int(val_loss)}, training loss {int(total_loss)}",
+            flush=True,
+            end="",
+        )
 
     print("\n")
 
 
-def evaluate(n_features, test_loader, interval, model_path, nn_type: str, hidden_units=None):
+def evaluate(
+    n_features: int,
+    test_loader: DataLoader,
+    interval: int,
+    model_path: str,
+    nn_type: str,
+    hidden_units: int = None,
+) -> None:
     if nn_type == "LSTM":
         model = LSTM(n_features, hidden_units)
     elif nn_type == "ANN":

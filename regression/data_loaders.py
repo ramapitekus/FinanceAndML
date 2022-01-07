@@ -14,10 +14,10 @@ class SequenceDataset(Dataset):
     def __getitem__(self, i):
         if i >= self.sequence_length - 1:
             i_start = i - self.sequence_length + 1
-            x = self.x[i_start:(i + 1), :]
+            x = self.x[i_start : (i + 1), :]
         else:
             padding = self.x[0].repeat(self.sequence_length - i - 1, 1)
-            x = self.x[0:(i + 1), :]
+            x = self.x[0 : (i + 1), :]
             x = torch.cat((padding, x), 0)
 
         return x, self.y[i]

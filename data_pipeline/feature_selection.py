@@ -77,7 +77,9 @@ def random_forest(
     y = df[y_col_name]
 
     if categorical:
-        model = SelectFromModel(RandomForestClassifier(n_estimators=100))
+        model = SelectFromModel(
+            RandomForestClassifier(n_estimators=100), threshold=threshold
+        )
         model.fit(x, y)
 
     else:

@@ -5,7 +5,11 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
-INTERVALS = {1: "01-04-2013-19-07-2016", 2: "01-04-2013-01-01-2017", 3: "01-04-2013-31-12-2020"}
+INTERVALS = {
+    1: "01-04-2013-19-07-2016",
+    2: "01-04-2013-01-01-2017",
+    3: "01-04-2013-31-12-2020",
+}
 PERIODS = [1, 7, 30, 90]
 
 
@@ -14,7 +18,10 @@ def train_interval(interval: int) -> None:
         interval_str = INTERVALS[interval]
 
         standard_scaler = StandardScaler()
-        df = pd.read_csv(f"./data/continuous/{interval_str}/{period}d_indicators.csv", index_col=False)
+        df = pd.read_csv(
+            f"./data/continuous/{interval_str}/{period}d_indicators.csv",
+            index_col=False,
+        )
 
         y = df[f"bitcoin-price_raw_{period}d"]
 
@@ -30,7 +37,7 @@ def train_interval(interval: int) -> None:
 
         print(f"Training interval {interval} for {period} day(s) period")
 
-        svr = SVR(C=10000)
+        svr = SVR(C=8000)
         fitted = svr.fit(X_train, y_train)
 
         y_pred = fitted.predict(X_test)
