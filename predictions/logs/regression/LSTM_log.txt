@@ -1,0 +1,48 @@
+LSTM regression, interval 1 period 1
+mrse is 99.29376220703125
+mae is 84.63702392578125
+mape is 0.18383371829986572
+LSTM regression, interval 1 period 7
+mrse is 143.21383666992188
+mae is 98.00192260742188
+mape is 0.17978884279727936
+LSTM regression, interval 1 period 30
+mrse is 248.9053497314453
+mae is 162.73573303222656
+mape is 0.29622527956962585
+LSTM regression, interval 1 period 90
+mrse is 216.15774536132812
+mae is 193.0836639404297
+mape is 0.39110639691352844
+LSTM regression, interval 2 period 1
+mrse is 225.1976318359375
+mae is 141.215087890625
+mape is 0.20299120247364044
+LSTM regression, interval 2 period 7
+mrse is 479.54791259765625
+mae is 418.288818359375
+mape is 0.6376448273658752
+LSTM regression, interval 2 period 30
+mrse is 536.414306640625
+mae is 461.3970031738281
+mape is 0.7012141942977905
+LSTM regression, interval 2 period 90
+mrse is 511.38238525390625
+mae is 414.37579345703125
+mape is 0.606545627117157
+LSTM regression, interval 3 period 1
+mrse is 3741.826416015625
+mae is 2255.2099609375
+mape is 0.18473447859287262
+LSTM regression, interval 3 period 7
+mrse is 4306.9921875
+mae is 2976.003173828125
+mape is 0.24757733941078186
+LSTM regression, interval 3 period 30
+mrse is 4308.7734375
+mae is 3137.32568359375
+mape is 0.2723007798194885
+LSTM regression, interval 3 period 90
+mrse is 4070.31884765625
+mae is 3035.30908203125
+mape is 0.2798362970352173

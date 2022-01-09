@@ -1,0 +1,48 @@
+ANN regression, interval 1 period 1
+mrse is 11.677334785461426
+mae is 7.091386795043945
+mape is 0.014686118811368942
+ANN regression, interval 1 period 7
+mrse is 11.6904935836792
+mae is 8.751663208007812
+mape is 0.01878347061574459
+ANN regression, interval 1 period 30
+mrse is 11.408735275268555
+mae is 6.5524797439575195
+mape is 0.014097345061600208
+ANN regression, interval 1 period 90
+mrse is 9.733741760253906
+mae is 6.789409160614014
+mape is 0.013960241340100765
+ANN regression, interval 2 period 1
+mrse is 15.216386795043945
+mae is 10.901975631713867
+mape is 0.017479456961154938
+ANN regression, interval 2 period 7
+mrse is 9.968103408813477
+mae is 7.075413227081299
+mape is 0.011334694921970367
+ANN regression, interval 2 period 30
+mrse is 10.225439071655273
+mae is 7.398771286010742
+mape is 0.011644509620964527
+ANN regression, interval 2 period 90
+mrse is 11.884090423583984
+mae is 7.484330177307129
+mape is 0.011638091877102852
+ANN regression, interval 3 period 1
+mrse is 430.86553955078125
+mae is 314.1197509765625
+mape is 0.03107604756951332
+ANN regression, interval 3 period 7
+mrse is 181.2596435546875
+mae is 112.11360931396484
+mape is 0.010921424254775047
+ANN regression, interval 3 period 30
+mrse is 216.2707977294922
+mae is 140.8554229736328
+mape is 0.014310714788734913
+ANN regression, interval 3 period 90
+mrse is 233.33880615234375
+mae is 153.3794403076172
+mape is 0.015048831701278687

@@ -1,0 +1,84 @@
+svm classification, interval 1 period 1
+specificity is 0.2755102040816326
+f1 is 0.658307210031348
+accuracy is 0.5477178423236515
+precision is 0.5965909090909091
+recall is 0.7342657342657343
+area under curve is 0.5048879691736834
+svm classification, interval 1 period 7
+specificity is 0.3076923076923077
+f1 is 0.6343042071197411
+accuracy is 0.5271966527196653
+precision is 0.6086956521739131
+recall is 0.6621621621621622
+area under curve is 0.48492723492723494
+svm classification, interval 1 period 30
+specificity is 1.0
+f1 is 0.21052631578947367
+accuracy is 0.34782608695652173
+precision is 1.0
+recall is 0.11764705882352941
+area under curve is 0.5588235294117647
+svm classification, interval 1 period 90
+specificity is 0.9428571428571428
+f1 is 0.09523809523809523
+accuracy is 0.35436893203883496
+precision is 0.6363636363636364
+recall is 0.051470588235294115
+area under curve is 0.4971638655462185
+svm classification, interval 2 period 1
+specificity is 0.33636363636363636
+f1 is 0.6534090909090908
+accuracy is 0.5547445255474452
+precision is 0.6117021276595744
+recall is 0.7012195121951219
+area under curve is 0.5187915742793792
+svm classification, interval 2 period 7
+specificity is 0.8144329896907216
+f1 is 0.18779342723004694
+accuracy is 0.3639705882352941
+precision is 0.5263157894736842
+recall is 0.11428571428571428
+area under curve is 0.464359351988218
+svm classification, interval 2 period 30
+specificity is 0.8428571428571429
+f1 is 0.593103448275862
+accuracy is 0.5513307984790875
+precision is 0.8865979381443299
+recall is 0.44559585492227977
+area under curve is 0.6442264988897114
+svm classification, interval 2 period 90
+specificity is 0.15
+f1 is 0.8753056234718826
+accuracy is 0.7866108786610879
+precision is 0.7782608695652173
+recall is 1.0
+area under curve is 0.575
+svm classification, interval 3 period 1
+specificity is 0.5135135135135135
+f1 is 0.524701873935264
+accuracy is 0.5070671378091873
+precision is 0.55
+recall is 0.501628664495114
+area under curve is 0.5075710890043137
+svm classification, interval 3 period 7
+specificity is 0.2845849802371542
+f1 is 0.5486725663716815
+accuracy is 0.4574468085106383
+precision is 0.5068119891008175
+recall is 0.5980707395498392
+area under curve is 0.4413278598934967
+svm classification, interval 3 period 30
+specificity is 0.21739130434782608
+f1 is 0.7001287001287001
+accuracy is 0.5801801801801801
+precision is 0.6017699115044248
+recall is 0.8369230769230769
+area under curve is 0.5271571906354515
+svm classification, interval 3 period 90
+specificity is 0.3553299492385787
+f1 is 0.7300275482093664
+accuracy is 0.6308851224105462
+precision is 0.6760204081632653
+recall is 0.7934131736526946
+area under curve is 0.5743715614456366

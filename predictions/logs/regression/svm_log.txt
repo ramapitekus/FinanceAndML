@@ -1,0 +1,48 @@
+svm regression, interval 1 period 1
+mrse is 25.041614191535103
+mae is 11.705804326296072
+mape is 0.02982411565453679
+svm regression, interval 1 period 7
+mrse is 14.438775571297203
+mae is 8.052710933855098
+mape is 0.022732027904994092
+svm regression, interval 1 period 30
+mrse is 14.724164855517612
+mae is 9.236018303890207
+mape is 0.026833695982205166
+svm regression, interval 1 period 90
+mrse is 18.10376748441937
+mae is 10.098045336586354
+mape is 0.02491056509019216
+svm regression, interval 2 period 1
+mrse is 23.93166258085333
+mae is 12.390925111502211
+mape is 0.03466178040736743
+svm regression, interval 2 period 7
+mrse is 21.299227327743026
+mae is 10.177276556283411
+mape is 0.025621288888841496
+svm regression, interval 2 period 30
+mrse is 18.757379092312256
+mae is 9.143670840518288
+mape is 0.02525729107053913
+svm regression, interval 2 period 90
+mrse is 22.90614073906002
+mae is 11.7278233852671
+mape is 0.027200222688366835
+svm regression, interval 3 period 1
+mrse is 829.1232294169838
+mae is 350.1678247475153
+mape is 0.08431318237157426
+svm regression, interval 3 period 7
+mrse is 354.82827480104834
+mae is 165.43703611723302
+mape is 0.09637978734819494
+svm regression, interval 3 period 30
+mrse is 251.66057832656452
+mae is 118.33161152168628
+mape is 0.04150016781760954
+svm regression, interval 3 period 90
+mrse is 321.70310101599676
+mae is 137.16892282929288
+mape is 0.03925823741088299

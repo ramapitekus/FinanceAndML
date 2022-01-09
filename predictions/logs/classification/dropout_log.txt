@@ -1,0 +1,84 @@
+dropout classification, interval 1 period 1
+specificity is 0.1919191919191919
+f1 is 0.7017543859649124
+accuracy is 0.5767634854771784
+precision is 0.6
+recall is 0.8450704225352113
+area under curve is 0.5184948072272015
+dropout classification, interval 1 period 7
+specificity is 0.0
+f1 is 0.7628865979381443
+accuracy is 0.6166666666666667
+precision is 0.6271186440677966
+recall is 0.9736842105263158
+area under curve is 0.4868421052631579
+dropout classification, interval 1 period 30
+specificity is 0.0
+f1 is 0.8287841191066998
+accuracy is 0.7076271186440678
+precision is 0.7136752136752137
+recall is 0.9881656804733728
+area under curve is 0.4940828402366864
+dropout classification, interval 1 period 90
+specificity is 1.0
+f1 is 0.0
+accuracy is 0.18303571428571427
+precision is 0.0
+recall is 0.0
+area under curve is 0.5
+dropout classification, interval 2 period 1
+specificity is 0.21818181818181817
+f1 is 0.671957671957672
+accuracy is 0.5490909090909091
+precision is 0.596244131455399
+recall is 0.7696969696969697
+area under curve is 0.4939393939393939
+dropout classification, interval 2 period 7
+specificity is 0.3978494623655914
+f1 is 0.6961325966850829
+accuracy is 0.5970695970695971
+precision is 0.6923076923076923
+recall is 0.7
+area under curve is 0.5489247311827956
+dropout classification, interval 2 period 30
+specificity is 0.5849056603773585
+f1 is 0.8333333333333334
+accuracy is 0.7472118959107806
+precision is 0.8854166666666666
+recall is 0.7870370370370371
+area under curve is 0.6859713487071978
+dropout classification, interval 2 period 90
+specificity is 1.0
+f1 is 0.0
+accuracy is 0.17120622568093385
+precision is 0.0
+recall is 0.0
+area under curve is 0.5
+dropout classification, interval 3 period 1
+specificity is 0.0
+f1 is 0.704
+accuracy is 0.5432098765432098
+precision is 0.5432098765432098
+recall is 1.0
+area under curve is 0.5
+dropout classification, interval 3 period 7
+specificity is 0.6626984126984127
+f1 is 0.34511434511434513
+accuracy is 0.4424778761061947
+precision is 0.49404761904761907
+recall is 0.26517571884984026
+area under curve is 0.46393706577412647
+dropout classification, interval 3 period 30
+specificity is 1.0
+f1 is 0.0
+accuracy is 0.40998217468805703
+precision is 0.0
+recall is 0.0
+area under curve is 0.5
+dropout classification, interval 3 period 90
+specificity is 1.0
+f1 is 0.0
+accuracy is 0.3588342440801457
+precision is 0.0
+recall is 0.0
+area under curve is 0.5

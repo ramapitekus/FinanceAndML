@@ -1,0 +1,48 @@
+dropout regression, interval 1 period 1
+mrse is 12.316559791564941
+mae is 9.104198455810547
+mape is 0.019669312983751297
+dropout regression, interval 1 period 7
+mrse is 10.836713790893555
+mae is 7.854447364807129
+mape is 0.016348417848348618
+dropout regression, interval 1 period 30
+mrse is 12.234602928161621
+mae is 8.680137634277344
+mape is 0.018441777676343918
+dropout regression, interval 1 period 90
+mrse is 13.496173858642578
+mae is 10.58757495880127
+mape is 0.02203763835132122
+dropout regression, interval 2 period 1
+mrse is 528.5812377929688
+mae is 522.1821899414062
+mape is 0.8523257374763489
+dropout regression, interval 2 period 7
+mrse is 14.450611114501953
+mae is 9.84019947052002
+mape is 0.015641897916793823
+dropout regression, interval 2 period 30
+mrse is 13.997139930725098
+mae is 11.006914138793945
+mape is 0.017522228881716728
+dropout regression, interval 2 period 90
+mrse is 15.60897159576416
+mae is 11.609384536743164
+mape is 0.018147459253668785
+dropout regression, interval 3 period 1
+mrse is 506.549560546875
+mae is 368.5992736816406
+mape is 0.03615039214491844
+dropout regression, interval 3 period 7
+mrse is 463.1673278808594
+mae is 368.49847412109375
+mape is 0.03480641916394234
+dropout regression, interval 3 period 30
+mrse is 864.908203125
+mae is 661.7337646484375
+mape is 0.06152177229523659
+dropout regression, interval 3 period 90
+mrse is 1241.9808349609375
+mae is 1089.6531982421875
+mape is 0.10317353904247284
