@@ -1,8 +1,8 @@
-from sklearn.svm import SVR
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from utils import perform_statistics
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from utils import perform_statistics_classification
 
 
 INTERVALS = {
@@ -19,30 +19,34 @@ def train_interval(interval: int) -> None:
 
         standard_scaler = StandardScaler()
         df = pd.read_csv(
-            f"./data/continuous/{interval_str}/{period}d_indicators.csv",
+            f"./data/categorical/{interval_str}/{period}d_indicators.csv",
             index_col=False,
         )
 
-        y = df[f"bitcoin-price_raw_{period}d"]
+        y = df[f"{period}d_binary_price_change"]
 
-        x = df.drop(columns=[f"bitcoin-price_raw_{period}d", "Date"])  # Get features
+        x = df.drop(columns=[f"{period}d_binary_price_change", "Date"])  # Get features
         x = x.values[:-period]
 
-        y = df[f"bitcoin-price_raw_{period}d"]
+        y = df[f"{period}d_binary_price_change"]
         y = y.values[:-period]  # Get dependent variables
 
         x = standard_scaler.fit_transform(x)
 
-        X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+        X_train, X_test, y_train, y_test = train_test_split(
+            x, y, test_size=0.2, shuffle=False, random_state=3
+        )
 
         print(f"Training interval {interval} for {period} day(s) period")
 
-        svr = SVR(C=8000)
+        svr = SVC(C=8000)
         fitted = svr.fit(X_train, y_train)
 
         y_pred = fitted.predict(X_test)
 
-        perform_statistics(y_pred, y_test)
+        perform_statistics_classification(
+            y_test, y_pred, model_type="svm", interval=interval, period=period
+        )
 
 
 for interval in INTERVALS.keys():

@@ -1,10 +1,10 @@
 import torch
-from utils import *
+from utils import perform_statistics_regression
 import math
 from typing import Union
 from torch.utils.data import DataLoader
-from lstm_model import LSTM
-from ann_model import ANN
+from .lstm_regression_model import Regression_LSTM
+from .ann_regression_model import Regression_ANN
 
 
 class LogCoshLoss(torch.nn.Module):
@@ -22,8 +22,8 @@ def log_cosh_loss(y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
     return torch.mean(_log_cosh(y_pred - y_true))
 
 
-def train_model(
-    net: Union[ANN, LSTM],
+def train_regression(
+    net: Union[Regression_ANN, Regression_LSTM],
     train_loader: DataLoader,
     val_loader: DataLoader,
     model_path: str,
@@ -38,7 +38,7 @@ def train_model(
     elif loss_type == "mse":
         loss = torch.nn.MSELoss()
     else:
-        raise NotImplementedError("Error type not implemented.")
+        raise NotImplementedError(f"Loss type {loss_type} not implemented.")
 
     min_val_loss = 1e20
 
@@ -73,20 +73,22 @@ def train_model(
     print("\n")
 
 
-def evaluate(
+def evaluate_regression(
     n_features: int,
     test_loader: DataLoader,
     interval: int,
+    period: int,
     model_path: str,
     nn_type: str,
     hidden_units: int = None,
+    dropout: float = None,
 ) -> None:
     if nn_type == "LSTM":
-        model = LSTM(n_features, hidden_units)
+        model = Regression_LSTM(n_features, hidden_units, interval)
     elif nn_type == "ANN":
-        model = ANN(n_features, interval)
+        model = Regression_ANN(n_features, interval)
     elif nn_type == "dropout":
-        model = ANN(n_features, interval, dropout=0.2)
+        model = Regression_ANN(n_features, interval, dropout=dropout)
 
     model.load_state_dict(torch.load(model_path))
     model.eval()
@@ -96,4 +98,10 @@ def evaluate(
         y_pred = y_pred.detach().numpy()
         y_test = target.detach().numpy()
 
-        perform_statistics(y_pred, y_test)
+        perform_statistics_regression(
+            y_pred,
+            y_test,
+            nn_type,
+            interval,
+            period,
+        )

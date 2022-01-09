@@ -2,15 +2,14 @@ import torch
 import torch.nn.functional as F
 
 
-class ANN(torch.nn.Module):
-
+class Classification_ANN(torch.nn.Module):
     def __init__(self, n_features, interval, dropout=None):
-        super(ANN, self).__init__()
+        super(Classification_ANN, self).__init__()
         self.interval = interval
         self.dropout = dropout
 
         if interval == 1:
-            n_hidden = 128
+            n_hidden = 10
         if interval == 2:
             n_hidden = 128
         if interval == 3:
@@ -29,7 +28,7 @@ class ANN(torch.nn.Module):
         x = self.generic_layer(x)
         x = F.relu(x)
         x = self.dropout(x) if self.dropout else x
-        # If 3. interval, add additional layer
+        # If 3. interval, add additional layers
         if self.interval == 3:
             x = self.generic_layer(x)
             x = F.relu(x)
@@ -41,4 +40,4 @@ class ANN(torch.nn.Module):
             x = F.relu(x)
             x = self.dropout(x) if self.dropout else x
         x = self.layer3(x)
-        return x
+        return torch.sigmoid(x)
