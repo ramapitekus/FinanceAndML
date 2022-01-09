@@ -19,6 +19,6 @@
 "dates": [["01-04-2013", "01-01-2017"], ["01-04-2013", "19-07-2016"], ["01-04-2013", "31-12-2020"]],
 "rf_threshold_continuous": 1e-4,
 "vif_threshold_continuous": 10,
-"rf_threshold_categorical": 1e-4,
+"rf_threshold_categorical": 2e-3,
 "vif_threshold_categorical": 10
 }
