@@ -10,4 +10,4 @@
 * Regression folder contains ML models to predict prices in specified periods (1, 7, 30, 90 days future price)
     * Models used: ANN, Stacked ANN, SVM, LSTM
     * Models folder contains trained models for NNs
-    * logs contain output of training, as well as statistics to the trained models
+    * logs contain metrics to the trained models
