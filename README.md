@@ -7,7 +7,7 @@
     * VIF is used to reduce multicollinearity
     * Time intervals, indicators etc. are specified in settings.json.
 
-* Regression folder contains ML models to predict prices in specified periods (1, 7, 30, 90 days future price)
+* predictions folder contains ML models to predict prices in specified periods (1, 7, 30, 90 days future price) for both regression and classification
     * Models used: ANN, Stacked ANN, SVM, LSTM
     * Models folder contains trained models for NNs
     * logs contain metrics to the trained models

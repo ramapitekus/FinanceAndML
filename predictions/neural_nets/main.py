@@ -13,7 +13,6 @@ INTERVALS = {
 }
 PERIODS = [1, 7, 30, 90]
 EPOCHS = 1000
-# LSTM LR 0.01
 LR = 0.01
 DROPOUT = 0.3
 
@@ -22,9 +21,9 @@ def main(
     prediction_type: str,
     interval: int,
     nn_type: str,
-    epochs: int,
-    lr: float,
-    shuffle: bool,
+    epochs: int = 1000,
+    lr: float = 0.01,
+    shuffle: bool = False,
     eval_only: bool = False,
     dropout: float = 0.0,
     loss: str = None,
@@ -116,17 +115,16 @@ def main(
             )
 
 
-# Currently, set up for evaluation of regression NN models
-for nn_type in ["dropout", "ANN", "LSTM"]:
-    for interval in INTERVALS.keys():
-        main(
-            prediction_type="regression",
-            interval=interval,
-            nn_type=nn_type,
-            epochs=EPOCHS,
-            lr=LR,
-            shuffle=False,
-            eval_only=True,
-            dropout=DROPOUT,
-            loss="mse",
-        )
+# Example: Trains ANN network with predefined parameters
+for interval in INTERVALS.keys():
+    main(
+        prediction_type="regression",
+        interval=interval,
+        nn_type="ANN",
+        epochs=EPOCHS,
+        lr=LR,
+        eval_only=False,
+        shuffle=True,
+        dropout=DROPOUT,
+        loss="mse",
+    )
